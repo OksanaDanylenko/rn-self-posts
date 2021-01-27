@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 export const Post = ({ post, onOpen }) => {

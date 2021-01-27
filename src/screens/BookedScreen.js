@@ -1,5 +1,5 @@
 import React from 'react';
-import { DATA } from '../data';
+import { useSelector } from 'react-redux';
 import { PostList } from '../components/PostList';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { AppHeaderIcon } from '../components/AppHeaderIcon';
@@ -12,12 +12,10 @@ export const BookedScreen = ({ navigation }) => {
       booked: post.booked,
     });
   };
-  return (
-    <PostList
-      data={DATA.filter((post) => post.booked)}
-      onOpen={openPostHandler}
-    />
-  );
+
+  const bookedPosts = useSelector((state) => state.post.bookedPosts);
+
+  return <PostList data={bookedPosts} onOpen={openPostHandler} />;
 };
 
 BookedScreen.options = {

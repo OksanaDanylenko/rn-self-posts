@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
+import { Provider } from 'react-redux';
 import { bootstrap } from './src/bootstrap';
 import { MainScreen } from './src/screens/MainScreen';
 import { PostScreen } from './src/screens/PostScreen';
@@ -14,6 +15,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { THEME } from './src/theme';
+import store from './src/store';
 
 const navigatorOptions = () => ({
   headerStyle: {
@@ -164,8 +166,10 @@ export default function App() {
   );
 
   return (
-    <NavigationContainer>
-      <DrawerNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <DrawerNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 }
