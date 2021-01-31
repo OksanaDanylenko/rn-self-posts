@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { CommonActions } from '@react-navigation/native';
+import { NavigationActions } from 'react-navigation';
 import {
   View,
   Text,
@@ -16,10 +18,12 @@ import { AppHeaderIcon } from '../components/AppHeaderIcon';
 import { DrawerActions } from '@react-navigation/native';
 import { addPost } from '../store/actions/post';
 import { THEME } from '../theme';
+import { PhotoPicker } from '../components/PhotoPicker';
 
 export const CreateScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState('');
+  const imgRef = useRef();
 
   const img =
     'https://images.unsplash.com/photo-1445543949571-ffc3e0e2f55e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80';
@@ -28,12 +32,27 @@ export const CreateScreen = ({ navigation }) => {
     const post = {
       date: new Date().toJSON(),
       text: text,
-      img: img,
+      img: imgRef.current,
       booked: false,
     };
     dispatch(addPost(post));
-    navigation.navigate('MainScreen');
+    // navigation.goBack('MainScreen');
+    navigation.navigate('Blog', {
+      screen: 'StackNavigator',
+    });
+
+    // this.props.navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [{ name: 'MainScreen' }],
+    //   }),
+    // );
   };
+
+  const pickHandler = (uri) => {
+    imgRef.current = uri;
+  };
+
   return (
     <ScrollView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -48,13 +67,15 @@ export const CreateScreen = ({ navigation }) => {
           <Image
             style={{ width: '100%', height: 200, marginBottom: 10 }}
             source={{
-              uri: img,
+              uri: imgRef.current,
             }}
           />
+          <PhotoPicker onPick={pickHandler} />
           <Button
             title="Create post"
             color={THEME.MAIN_COLOR}
             onPress={saveHandler}
+            disabled={!text}
           />
         </View>
       </TouchableWithoutFeedback>

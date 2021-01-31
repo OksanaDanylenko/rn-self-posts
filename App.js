@@ -15,6 +15,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { THEME } from './src/theme';
+import { enableScreens } from 'react-native-screens';
 import store from './src/store';
 
 const navigatorOptions = () => ({
@@ -23,6 +24,8 @@ const navigatorOptions = () => ({
   },
   headerTintColor: Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR,
 });
+
+enableScreens(true); //for android if screen unresponsive to touch
 
 const Stack = createStackNavigator();
 const Booked = createStackNavigator();
@@ -52,7 +55,6 @@ export default function App() {
       initialRouteName="MainScreen"
       screenOptions={navigatorOptions}
     >
-      <Stack.Screen name="About" component={DrawerNavigator} />
       <Stack.Screen
         name="MainScreen"
         component={MainScreen}
@@ -137,7 +139,7 @@ export default function App() {
 
   const DrawerNavigator = () => (
     <Drawer.Navigator
-      initialRouteName="BookedScreen"
+      initialRouteName="Blog"
       drawerContentOptions={{
         activeTintColor: THEME.MAIN_COLOR,
         labelStyle: {
@@ -153,7 +155,7 @@ export default function App() {
         }}
       />
       <Drawer.Screen
-        name="About"
+        name="AboutNavigator"
         component={AboutNavigator}
         options={{ drawerLabel: 'About App' }}
       />

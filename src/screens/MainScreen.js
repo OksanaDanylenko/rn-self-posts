@@ -5,9 +5,14 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { AppHeaderIcon } from '../components/AppHeaderIcon';
 import { PostList } from '../components/PostList';
 import { loadPosts } from '../store/actions/post';
+import { useIsDrawerOpen } from '@react-navigation/drawer';
 
 export const MainScreen = ({ navigation }) => {
+  const isDrawerOpen = useIsDrawerOpen();
+  console.log('route.name', isDrawerOpen);
+
   const openPostHandler = (post) => {
+    console.log('onOpen', post);
     navigation.navigate('PostScreen', {
       postId: post.id,
       date: post.date,
