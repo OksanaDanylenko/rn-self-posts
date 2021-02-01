@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { DrawerActions } from '@react-navigation/native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { AppHeaderIcon } from '../components/AppHeaderIcon';
 import { PostList } from '../components/PostList';
 import { loadPosts } from '../store/actions/post';
-import { useIsDrawerOpen } from '@react-navigation/drawer';
+import { THEME } from '../theme';
 
 export const MainScreen = ({ navigation }) => {
-  const isDrawerOpen = useIsDrawerOpen();
-  console.log('route.name', isDrawerOpen);
-
   const openPostHandler = (post) => {
-    console.log('onOpen', post);
     navigation.navigate('PostScreen', {
       postId: post.id,
       date: post.date,
@@ -27,7 +24,15 @@ export const MainScreen = ({ navigation }) => {
   }, [dispatch]);
 
   const allPosts = useSelector((state) => state.post.allPosts);
+  const loading = useSelector((state) => state.post.loading);
 
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator color={THEME.MAIN_COLOR} />
+      </View>
+    );
+  }
   return <PostList data={allPosts} onOpen={openPostHandler} />;
 };
 
@@ -38,7 +43,7 @@ MainScreen.options = ({ navigation }) => ({
       <Item
         title="Take photo"
         iconName="ios-camera"
-        onPress={() => navigation.push('Create')}
+        onPress={() => navigation.push('CreateScreen')}
       />
     </HeaderButtons>
   ),
@@ -51,4 +56,12 @@ MainScreen.options = ({ navigation }) => ({
       />
     </HeaderButtons>
   ),
+});
+
+const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

@@ -20,9 +20,15 @@ import store from './src/store';
 
 const navigatorOptions = () => ({
   headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? THEME.MAIN_COLOR : '#fff',
+    backgroundColor:
+      Platform.OS === 'android' || Platform.OS === 'web'
+        ? THEME.MAIN_COLOR
+        : '#fff',
   },
-  headerTintColor: Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR,
+  headerTintColor:
+    Platform.OS === 'android' || Platform.OS === 'web'
+      ? '#fff'
+      : THEME.MAIN_COLOR,
 });
 
 enableScreens(true); //for android if screen unresponsive to touch
@@ -64,6 +70,11 @@ export default function App() {
         name="PostScreen"
         component={PostScreen}
         options={PostScreen.options}
+      />
+      <Stack.Screen
+        name="CreateScreen"
+        component={CreateScreen}
+        options={CreateScreen.options}
       />
     </Stack.Navigator>
   );
@@ -118,7 +129,10 @@ export default function App() {
   );
 
   const CreateNavigator = () => (
-    <Create.Navigator>
+    <Create.Navigator
+      screenOptions={navigatorOptions}
+      initialRouteName="CreateScreen"
+    >
       <Create.Screen
         name="CreateScreen"
         component={CreateScreen}
@@ -128,7 +142,10 @@ export default function App() {
   );
 
   const AboutNavigator = () => (
-    <About.Navigator>
+    <About.Navigator
+      screenOptions={navigatorOptions}
+      initialRouteName="AboutScreen"
+    >
       <About.Screen
         name="AboutScreen"
         component={AboutScreen}

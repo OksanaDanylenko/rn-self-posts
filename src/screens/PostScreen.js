@@ -17,14 +17,14 @@ import { toggleBooked, removePost } from '../store/actions/post';
 export const PostScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
-  let unsubscribe;
-  React.useEffect(() => {
-    unsubscribe = navigation.addListener('focus', () => {
-      // do something
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+  // let unsubscribe;
+  // React.useEffect(() => {
+  //   unsubscribe = navigation.addListener('focus', () => {
+  //     // do something
+  //   });
+  //
+  //   return unsubscribe;
+  // }, [navigation]);
 
   const { postId } = route.params;
 
@@ -37,15 +37,20 @@ export const PostScreen = ({ route, navigation }) => {
   );
 
   useEffect(() => {
-    if (unsubscribe) navigation.setParams({ booked });
+    // console.log('booked', booked, unsubscribe);
+    // if (unsubscribe)
+
+    navigation.setParams({ booked });
   }, [booked]);
 
   const toggleHandler = useCallback(() => {
-    dispatch(toggleBooked(postId));
-  }, [dispatch, postId]);
+    dispatch(toggleBooked(post));
+  }, [dispatch, post]);
 
   useEffect(() => {
-    if (unsubscribe) navigation.setParams({ toggleHandler });
+    // if (unsubscribe)
+
+    navigation.setParams({ toggleHandler });
   }, [toggleHandler]);
 
   const removeHandler = () => {
@@ -93,6 +98,8 @@ PostScreen.options = ({ route }) => {
   const date = route.params.date;
   const booked = route.params.booked;
   const toggleHandler = route.params.toggleHandler;
+
+  console.log('route.params', route.params);
 
   const iconName = booked ? 'ios-star' : 'ios-star-outline';
   return {

@@ -9,6 +9,10 @@ export const AppHeaderIcon = (props) => (
     {...props}
     iconSize={24}
     IconComponent={Ionicons}
-    color={Platform.OS === 'android' ? '#fff' : THEME.MAIN_COLOR}
+    color={
+      Platform.OS === 'android' || Platform.OS === 'web'
+        ? '#fff'
+        : THEME.MAIN_COLOR
+    }
   />
 );
